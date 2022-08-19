@@ -8,8 +8,9 @@ main :: IO ()
 main = do
   sock <- socket AF_UNIX Stream 0
   connect sock $ SockAddrUnix "/tmp/test.sock"
-  sendAll sock $ B.pack "hello world"
+  sendAll sock $ B.pack "hello world\n"
   text <- recv sock 4
   B.putStrLn . B.pack $ "did they really just say: \"" ++ (B.unpack text) ++ "\"?"
+  getLine
   close sock
 
