@@ -1,9 +1,12 @@
 require 'socket'
 require 'fileutils'
 
-# FIXME Deal with the fact that `Socket#read` is blocking until either
+# `Socket#read` is blocking until either
 # a certain number of bytes or EOF (in this case, until EOF, which makes reuse
 # kinda hard)
+#
+# So now we have to read nonblocking of whatever's available, but we need to
+# know when the client is done writing. Newline? EOF? \0?
 begin
   server = UNIXServer.new '/tmp/test.sock'
   sock = server.accept
